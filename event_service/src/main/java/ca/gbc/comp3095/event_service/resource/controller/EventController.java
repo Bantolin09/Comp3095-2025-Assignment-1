@@ -5,7 +5,7 @@ import ca.gbc.comp3095.event_service.resource.dto.EventResponse;
 import ca.gbc.comp3095.event_service.resource.dto.StudentRequest;
 import ca.gbc.comp3095.event_service.resource.entity.Event;
 import ca.gbc.comp3095.event_service.resource.service.EventService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,11 +24,16 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/events")
-@RequiredArgsConstructor
 public class EventController {
 
     private final EventService service;
     private final RestTemplate restTemplate;
+
+    @Autowired
+    public EventController(EventService service, RestTemplate restTemplate) {
+        this.service = service;
+        this.restTemplate = restTemplate;
+    }
 
     @GetMapping
     public List<EventResponse> listAll() {
@@ -76,7 +81,7 @@ public class EventController {
         return toResponse(service.registerStudent(id, request.getStudentId()));
     }
 
-    @PostMapping("/{id}/unregister")
+    @DeleteMapping("/{id}/unregister")
     public EventResponse unregister(@PathVariable Long id, @Valid @RequestBody StudentRequest request) {
         return toResponse(service.unregisterStudent(id, request.getStudentId()));
     }
