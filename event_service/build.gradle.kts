@@ -22,7 +22,7 @@ repositories {
 }
 
 springBoot {
-    mainClass.set("com.gb.wellness.wellness_resource_service.WellnessResourceServiceApplication")
+    mainClass.set("ca.gbc.comp3095.event_service.EventServiceApplication")
 }
 
 dependencies {
