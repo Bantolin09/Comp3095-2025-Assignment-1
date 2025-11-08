@@ -1,0 +1,3 @@
+rootProject.name = 'event_service'
+
+include 'event_service'

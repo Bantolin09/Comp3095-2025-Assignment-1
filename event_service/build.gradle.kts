@@ -6,9 +6,10 @@ plugins {
 
 val springModulithVersion = "1.4.4"
 
-group = "com.gb.wellness"
+group = "ca.gbc.comp3095.event_service"
 version = "0.0.1-SNAPSHOT"
 description = "Demo project for Spring Boot"
+
 
 java {
     toolchain {
@@ -21,7 +22,7 @@ repositories {
 }
 
 springBoot {
-    mainClass.set("com.gb.wellness.wellness_resource_service.WellnessResourceServiceApplication")
+    mainClass.set("ca.gbc.comp3095.event_service.EventServiceApplication")
 }
 
 dependencies {
@@ -33,8 +34,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
-    // Database
-    implementation("com.h2database:h2")
+    // Database - Assignment Requirements
+    implementation("org.postgresql:postgresql")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("com.h2database:h2") // Keep for testing
 
     // Web Client
     implementation("org.springframework:spring-webflux")
@@ -49,9 +53,13 @@ dependencies {
     // Development
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    // Testing
+    // Testing - Assignment Requirements
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:mongodb")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
     runtimeOnly("org.springframework.boot:spring-boot-docker-compose")
     runtimeOnly("org.springframework.modulith:spring-modulith-observability")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -66,3 +74,4 @@ dependencyManagement {
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
+

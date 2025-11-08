@@ -1,9 +1,14 @@
-FROM eclipse-temurin:17-jdk-alpine
-
+FROM eclipse-temurin:21-jdk-alpine AS builder
 WORKDIR /app
+COPY . .
+RUN ./gradlew build -x test
 
-COPY build/libs/wellness-resource-service-0.0.1-SNAPSHOT.jar app.jar
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY --from=builder /app/build/libs/*.jar event_service.jar
+EXPOSE 8091
 
-EXPOSE 8080
+ENV SPRING_DOCKER_COMPOSE_ENABLED=false
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Dspring.main.class=com.gb.wellness.event_service.EventServiceApplication", "-jar", "event_service.jar"]
+
