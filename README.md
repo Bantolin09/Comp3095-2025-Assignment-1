@@ -19,6 +19,47 @@
 
 ---
 
+
+## API Endpoints for Events
+
+| Endpoint                                           | Method | Description               |
+|----------------------------------------------------|--------|---------------------------|
+| `http://localhost:8082/events`                     | POST   | Create new event          |
+| `http://localhost:8082/events`                     | GET    | Get all events            |
+| `http://localhost:8082/events/{id}`                | GET    | Get event by ID           |
+| `http://localhost:8082/events/{id}`                | PUT    | Update event by ID        |
+| `http://localhost:8082/events/{id}`                | DELETE | Delete event by ID        |
+| `http://localhost:8082/events/date/{date}`         | GET    | Filter events by date     |
+| `http://localhost:8082/events/location/{location}` | GET    | Filter events by location |
+| `http://localhost:8082/events/category/{category}` | GET    | Filter events by category |
+
+### Student Registration
+
+| Endpoint                                       | Method | Description          |
+|------------------------------------------------|--------|----------------------|
+| `http://localhost:8082/events/{id}/register`   | POST   | Register a student   |
+| `http://localhost:8082/events/{id}/unregister` | GET    | Unregister a student |
+
+### Resource Linking
+
+| Endpoint                                      | Method | Description   |
+|-----------------------------------------------|--------|---------------|
+| `http://localhost:8082/events/{id}/resources` | GET    | Get Resources |
+
+
+- Default port: `8082`
+
+## Example Create Event JSON
+
+{
+"title": "Yoga Workshop",
+"description": "Relax and stretch with mindfulness",
+"date": "2025-12-05",
+"location": "GBC Gym",
+"capacity": 20,
+"category": "mindfulness"
+}
+
 ## 2. GitLab Repository
 
 **URL:** `https://gitlab.com/Bantolin09/Comp3095-2025-Assignment-1`  
