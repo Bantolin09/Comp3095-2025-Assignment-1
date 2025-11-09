@@ -5,7 +5,7 @@ services:
     image: postgres:15
     container_name: postgres
     environment:
-      POSTGRES_DB: wellnessdb
+      POSTGRES_DB: wellness_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
@@ -20,33 +20,62 @@ services:
       - "6379:6379"
 
   event-service:
-    build: ./event-service
+    build:
+      context: .  # Use root so Docker sees everything
+      dockerfile: event_service/Dockerfile
+
     container_name: event-service
     ports:
       - "8082:8080"
     depends_on:
       - postgres
+      - redis
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      DB_HOST: postgres
-
-
-  wellness-service:
-    build: ./wellness-service
-    container_name: wellness-service
-    depends_on:
-      - postgres
-      - redis
-    ports:
-      - "8081:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/wellnessdb
+      SPRING_DOCKER_COMPOSE_ENABLED: false
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/wellness_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
 
+  wellness-service:
+    build:
+      context: .
+      dockerfile: wellness-service/Dockerfile
+    container_name: wellness-service
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DOCKER_COMPOSE_ENABLED: false
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/wellness_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
 
+  goal-tracking-service:
+    build:
+      context: ./goal-tracking-service
+      dockerfile: Dockerfile
+    container_name: goal-tracking-service
+    ports:
+      - "8083:8080"
+#    depends_on:
+#      - postgres
+#      - redis
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DOCKER_COMPOSE_ENABLED: false
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/wellness_db
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: postgres
+#      SPRING_REDIS_HOST: redis
+#      SPRING_REDIS_PORT: 6379
 
 volumes:
   pgdata:

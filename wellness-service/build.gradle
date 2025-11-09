@@ -1,36 +1,163 @@
+//plugins {
+//    id 'java'
+//    id 'org.springframework.boot' version '3.5.7'
+//    id 'io.spring.dependency-management' version '1.1.7'
+//}
+//
+//group = 'com.gb.wellness'
+//version = '0.0.1-SNAPSHOT'
+//description = 'Wellness Service'
+//
+//java {
+//    toolchain {
+//        languageVersion = JavaLanguageVersion.of(21)
+//    }
+//}
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//springBoot {
+//    mainClass.set("com.gb.wellness.wellness_resource_service.WellnessResourceServiceApplication")
+//}
+//
+//dependencies {
+//    // Spring Boot Starters
+//    implementation 'org.springframework.boot:spring-boot-starter-web'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//    implementation 'org.springframework.boot:spring-boot-starter-validation'
+//    implementation 'org.springframework.boot:spring-boot-starter-cache'
+//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+//
+//    // Consume goal-tracking-service
+//    implementation(project(":goal-tracking-service"))
+//
+//    // Database
+//    //implementation 'com.h2database:h2'
+//    implementation 'org.postgresql:postgresql'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//
+//    // Web Client
+//    implementation 'org.springframework:spring-webflux'
+//    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+//    compileOnly 'org.projectlombok:lombok'
+//    annotationProcessor 'org.projectlombok:lombok'
+//
+//    // Modulith
+//    implementation 'org.springframework.modulith:spring-modulith-starter-core'
+//    implementation 'org.springframework.modulith:spring-modulith-starter-jpa'
+//    testImplementation 'org.springframework.modulith:spring-modulith-starter-test'
+//
+//    // Development
+//    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//
+//    // Testing
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'org.springframework.security:spring-security-test'
+//    testImplementation 'org.testcontainers:junit-jupiter'
+//    testImplementation 'org.testcontainers:postgresql'
+//    testImplementation 'org.testcontainers:mongodb'
+//    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+//    runtimeOnly 'org.springframework.modulith:spring-modulith-observability'
+//    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+//}
+//
+//dependencyManagement {
+//    imports {
+//        mavenBom "org.springframework.modulith:spring-modulith-bom:${springModulithVersion}"
+//    }
+//}
+//
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.5.7'
-	id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+    id 'org.springframework.boot' version '3.5.7'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+ext {
+    springModulithVersion = "1.4.4"
 }
 
 group = 'com.gb.wellness'
 version = '0.0.1-SNAPSHOT'
-description = 'Demo project for Spring Boot'
+description = 'Wellness Service'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
+}
+
+springBoot {
+    mainClass.set("com.gb.wellness.wellness_resource_service.WellnessResourceServiceApplication")
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-cache'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'com.h2database:h2'
+    // Spring Boot Starters
+    //implementation 'org.springframework.boot:spring-boot-starter-web'
+    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'com.h2database', module: 'h2'
+    }
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa') {
+        exclude group: 'com.h2database', module:'h2'
+        }
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'org.postgresql:postgresql'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Consume goal-tracking-service
+    implementation(project(":goal-tracking-service"))
+
+    // Database
+
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Web Client
+    implementation 'org.springframework:spring-webflux'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Modulith
+    implementation 'org.springframework.modulith:spring-modulith-starter-core'
+    implementation 'org.springframework.modulith:spring-modulith-starter-jpa'
+    testImplementation 'org.springframework.modulith:spring-modulith-starter-test'
+
+    // Development
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:mongodb'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    runtimeOnly 'org.springframework.modulith:spring-modulith-observability'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.modulith:spring-modulith-bom:${springModulithVersion}"
+    }
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

@@ -1,3 +1,6 @@
 rootProject.name = 'COMP3095-2025-Assignment-1'
+include 'goal-tracking-service'
 include 'wellness-service'
-include 'event-service'
+include 'event_service'
+
+
